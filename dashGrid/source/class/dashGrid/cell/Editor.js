@@ -13,11 +13,8 @@ qx.Class.define("dashGrid.cell.Editor", {
 
     let loadingUri = qx.util.ResourceManager.getInstance().toUri("dashGrid/raw/index.html");
     let iframe = new qx.ui.embed.Iframe(loadingUri);
-    //let iframe = new qx.ui.embed.Iframe("https://www.google.com");
     iframe.setBackgroundColor("transparent");
     this.setContent(iframe);
-
-    // this.setHtmlContent(this.getHandler().getEditor());
   },
 
   properties: {
@@ -64,7 +61,6 @@ qx.Class.define("dashGrid.cell.Editor", {
           let change = new qx.ui.form.Button(this.tr("Change content"));
           change.addListener("execute", e => {
             this.getHandler().createRandomData();
-            // this.setHtmlContent(this.getHandler().getEditor());
             this.setContent(this.getHandler().getEditor());
           }, this);
           control.add(change);
@@ -78,12 +74,6 @@ qx.Class.define("dashGrid.cell.Editor", {
 
     getTitle: function() {
       this.__titleField.getValue();
-    },
-
-    setHtmlContent: function(htmlContent) {
-      let html = new qx.ui.embed.Html();
-      html.setHtml(htmlContent);
-      this.setContent(html);
     },
 
     setContent: function(content) {

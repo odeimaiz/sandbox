@@ -72,7 +72,6 @@ qx.Class.define("dashGrid.Application", {
             let cellEditor = null;
             if (this.__cellEditors.hasOwnProperty(uuid)) {
               cellEditor = this.__cellEditors[uuid];
-              // cellEditor.setHtmlContent(htmlContent);
               this.__stack.add(cellEditor);
               this.__stack.setSelection([cellEditor]);
             }
