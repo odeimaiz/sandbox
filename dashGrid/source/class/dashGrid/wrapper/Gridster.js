@@ -44,20 +44,6 @@ qx.Class.define("dashGrid.wrapper.Gridster", {
   },
 
   statics: {
-    buildEmptyTag: function(tag) {
-      let html = tag;
-      html += html.substr(0, 1) + "/" + html.substr(1);;
-      return html;
-    },
-
-    insertBetweenTags: function(origin, tag, text) {
-      const position = origin.indexOf(tag); 
-      if (position !== -1) {
-        return a.substr(0, position) + text + a.substr(position);
-      }
-      return null;
-    },
-
     buildHeader: function(cellOutput) {
       let html = "<header>";
       html += cellOutput.getTitle();
@@ -66,7 +52,9 @@ qx.Class.define("dashGrid.wrapper.Gridster", {
     },
 
     buildContent: function(cellOutput) {
-      let html = cellOutput.getOutput();
+      let html = "<content>";
+      html += cellOutput.getOutput();
+      html += "</content>";
       return html;
     },
 
@@ -161,7 +149,8 @@ qx.Class.define("dashGrid.wrapper.Gridster", {
     },
 
     rebuildWidget: function(cellOutput, htmlElement) {
-      const html = this.self().buildHtmlCode(cellOutput);
+      let html = this.self().buildHtmlCode(cellOutput);
+      html += "<span class='gs-resize-handle gs-resize-handle-both'></span>";
       htmlElement.innerHTML = html;
     }
   }
