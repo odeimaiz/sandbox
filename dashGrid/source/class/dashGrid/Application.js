@@ -10,7 +10,7 @@ qx.Class.define("dashGrid.Application", {
   members: {
     __stack: null,
     __mainView: null,
-    __gridder: null,
+    __dashboard: null,
     __cellEditors: null,
     /**
      * This method contains the initial application code and gets called 
@@ -29,8 +29,8 @@ qx.Class.define("dashGrid.Application", {
       let mainView = this.__mainView = new qx.ui.container.Composite(new qx.ui.layout.VBox());
       let addBtn = this._createChildControlImpl("addBtn");
       mainView.add(addBtn);
-      let gridder = this.__gridder = this._createChildControlImpl("gridder");
-      mainView.add(gridder, {
+      let dashboard = this.__dashboard = this._createChildControlImpl("dashboard");
+      mainView.add(dashboard, {
         flex: 1
       });
       
@@ -61,13 +61,12 @@ qx.Class.define("dashGrid.Application", {
             }, this);
             let cellOutput = new dashGrid.cell.Output(cellHandler);
             this.__cellEditors[cellHandler.getUuid()] = cellEditor;
-            this.__gridder.addWidget(cellOutput);
+            this.__dashboard.addWidget(cellOutput);
           }, this);
           break;
         }
-        case "gridder": {
-          control = new dashGrid.wrapper.Gridster();
-
+        case "dashboard": {
+          control = new dashGrid.widget.Dashboard();
           control.addListener("widgetSelected", e => {
             const uuid = e.getData();
     

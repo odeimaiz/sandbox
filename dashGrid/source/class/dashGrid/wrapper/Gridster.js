@@ -15,10 +15,8 @@ qx.Class.define("dashGrid.wrapper.Gridster", {
 
   construct: function() {
     this.base(arguments);
-    this.set({
-      width: 1000
-    });
-    this.init();
+
+    this.__init();
   },
 
   properties: {
@@ -45,10 +43,32 @@ qx.Class.define("dashGrid.wrapper.Gridster", {
     "widgetSelected": "qx.event.type.Data"
   },
 
+  statics: {
+    buildHeader: function(cellOutput) {
+      let html = "<header>";
+      html += cellOutput.getTitle();
+      html += "</header>";
+      return html;
+    },
+
+    buildContent: function(cellOutput) {
+      let html = cellOutput.getOutput();
+      return html;
+    },
+
+    buildHtmlCode: function(cellOutput) {
+      let html = "<li>";
+      html += this.buildHeader(cellOutput);
+      html += this.buildContent(cellOutput);
+      html += "</li>";
+      return html;
+    },
+  },
+
   members: {
     __gridster: null,
 
-    init: function() {
+    __init: function() {
       // initialize the script loading
       const jQueryPath = "gridsterjs/jquery-3.3.1.min.js";
       const extras = false;
@@ -108,37 +128,8 @@ qx.Class.define("dashGrid.wrapper.Gridster", {
       }).data('gridster');
     },
 
-    createCellOptions: function(dataCol = 1, dataRow = 1, dataSizeX = 1, dataSizeY = 1) {
-      return {
-        "row": dataRow,
-        "col": dataCol,
-        "sizex": dataSizeX,
-        "sizey": dataSizeY
-      };
-    },
-
-    __buildHeader: function(cellOutput) {
-      let html = "<header>";
-      html += cellOutput.getTitle();
-      html += "</header>";
-      return html;
-    },
-
-    __buildContent: function(cellOutput) {
-      let html = cellOutput.getOutput();
-      return html;
-    },
-
-    __buildHtmlCode: function(cellOutput) {
-      let html = "<li>";
-      html += this.__buildHeader(cellOutput);
-      html += this.__buildContent(cellOutput);
-      html += "</li>";
-      return html;
-    },
-
     addWidget: function(cellOutput) {
-      const html = this.__buildHtmlCode(cellOutput);
+      const html = this.self().buildHtmlCode(cellOutput);
       let jQueryElement = this.__gridster.add_widget(html, 8, 6);
       if (jQueryElement) {
         let htmlElement = jQueryElement.get(0);
