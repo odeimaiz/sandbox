@@ -1,0 +1,29 @@
+#: dashGrid/CellEditor.js:26 dashGrid/CellEditor.js:27
+#: dashGrid/CellEditor.js:29 dashGrid/CellEditor.js:33
+#: dashGrid/CellEditor.js:40 dashGrid/CellEditor.js:36
+#: dashGrid/CellEditor.js:38 dashGrid/CellEditor.js:39
+#: dashGrid/CellOutput.js:27 dashGrid/cell/Editor.js:39
+#: dashGrid/cell/Editor.js:41 dashGrid/cell/Editor.js:42
+#: dashGrid/cell/Editor.js:44 dashGrid/cell/Editor.js:43
+msgid "Back to grid"
+msgstr ""
+
+#: dashGrid/CellEditor.js:33 dashGrid/CellEditor.js:35
+#: dashGrid/CellEditor.js:37 dashGrid/CellEditor.js:39
+#: dashGrid/CellEditor.js:43 dashGrid/CellEditor.js:50
+#: dashGrid/CellEditor.js:46 dashGrid/CellEditor.js:48
+#: dashGrid/CellEditor.js:49 dashGrid/CellOutput.js:37
+#: dashGrid/cell/Editor.js:49 dashGrid/cell/Editor.js:51
+#: dashGrid/cell/Editor.js:52 dashGrid/cell/Editor.js:54
+#: dashGrid/cell/Editor.js:53
+msgid "title"
+msgstr ""
+
+#: dashGrid/Application.js:54 dashGrid/Application.js:55
+msgid "Add plot"
+msgstr ""
+
+#: dashGrid/cell/Editor.js:65 dashGrid/cell/Editor.js:66
+#: dashGrid/cell/Editor.js:67 dashGrid/cell/Editor.js:64
+msgid "Change content"
+msgstr ""

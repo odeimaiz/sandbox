@@ -1,0 +1,36 @@
+{
+  "info" : 
+  {
+    "name" : "dashGrid",
+
+    "summary" : "",
+    "description" : "",
+    
+    "homepage" : "",
+
+    "license" : "MIT license",
+    "authors" : [
+  {
+    "name": "",
+    "email": ""
+  }
+],
+
+    "version" : "1.0.0"
+  },
+  
+  "provides" : 
+  {
+    "namespace"   : "dashGrid",
+    "encoding"    : "utf-8",
+    "class"       : "source/class",
+    "resource"    : "source/resource",
+    "translation" : "source/translation",
+    "type"        : "application"
+  },
+  
+  "requires": {
+    "qooxdoo-sdk"     : "^6.0.0-alpha-20181226-a3c2b0b",
+    "qooxdoo-compiler": "^0.3.0-alpha.20190225-1008"
+  }
+}
