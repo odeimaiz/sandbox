@@ -59,9 +59,8 @@ qx.Class.define("dashGrid.Application", {
             cellEditor.addListener("backToGrid", () => {
               this.__stack.setSelection([this.__mainView]);
             }, this);
-            let cellOutput = new dashGrid.cell.Output(cellHandler);
             this.__cellEditors[cellHandler.getUuid()] = cellEditor;
-            this.__dashboard.addWidget(cellOutput);
+            this.__dashboard.addWidget(cellHandler);
           }, this);
           break;
         }

@@ -44,6 +44,20 @@ qx.Class.define("dashGrid.wrapper.Gridster", {
   },
 
   statics: {
+    buildEmptyTag: function(tag) {
+      let html = tag;
+      html += html.substr(0, 1) + "/" + html.substr(1);;
+      return html;
+    },
+
+    insertBetweenTags: function(origin, tag, text) {
+      const position = origin.indexOf(tag); 
+      if (position !== -1) {
+        return a.substr(0, position) + text + a.substr(position);
+      }
+      return null;
+    },
+
     buildHeader: function(cellOutput) {
       let html = "<header>";
       html += cellOutput.getTitle();
@@ -57,9 +71,14 @@ qx.Class.define("dashGrid.wrapper.Gridster", {
     },
 
     buildHtmlCode: function(cellOutput) {
-      let html = "<li>";
-      html += this.buildHeader(cellOutput);
+      let html = this.buildHeader(cellOutput);
       html += this.buildContent(cellOutput);
+      return html;
+    },
+
+    buildHtmlCodeInList: function(cellOutput) {
+      let html = "<li>";
+      html += this.buildHtmlCode(cellOutput);
       html += "</li>";
       return html;
     },
@@ -129,14 +148,21 @@ qx.Class.define("dashGrid.wrapper.Gridster", {
     },
 
     addWidget: function(cellOutput) {
-      const html = this.self().buildHtmlCode(cellOutput);
+      const html = this.self().buildHtmlCodeInList(cellOutput);
       let jQueryElement = this.__gridster.add_widget(html, 8, 6);
       if (jQueryElement) {
         let htmlElement = jQueryElement.get(0);
         htmlElement.addEventListener("dblclick", e => {
           this.fireDataEvent("widgetSelected", cellOutput.getHandler().getUuid());
         }, this);
+        return htmlElement;
       }
+      return null;
+    },
+
+    rebuildWidget: function(cellOutput, htmlElement) {
+      const html = this.self().buildHtmlCode(cellOutput);
+      htmlElement.innerHTML = html;
     }
   }
 });

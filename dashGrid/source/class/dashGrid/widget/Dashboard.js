@@ -6,6 +6,8 @@ qx.Class.define("dashGrid.widget.Dashboard", {
 
     this._setLayout(new qx.ui.layout.Canvas());
 
+    this.__outputs = {};
+
     this.init();
   },
 
@@ -15,6 +17,7 @@ qx.Class.define("dashGrid.widget.Dashboard", {
 
   members: {
     __gridterWr: null,
+    __outputs: null,
 
     init: function() {
       let gridster = this.__gridterWr = new dashGrid.wrapper.Gridster();
@@ -29,8 +32,15 @@ qx.Class.define("dashGrid.widget.Dashboard", {
       })
     },
 
-    addWidget: function(cellOutput) {
-      this.__gridterWr.addWidget(cellOutput);
+    addWidget: function(cellHandler) {
+      let cellOutput = new dashGrid.cell.Output(cellHandler);
+      let htmlElement = this.__gridterWr.addWidget(cellOutput);
+      if (htmlElement) {
+        this.__outputs[cellHandler.getUuid()] = htmlElement;
+        cellHandler.addListener("changeTitle", e => {
+          this.__gridterWr.rebuildWidget(cellOutput, htmlElement);
+        }, this);
+      }
     }
   }
 });
