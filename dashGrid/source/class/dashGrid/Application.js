@@ -61,7 +61,7 @@ qx.Class.define("dashGrid.Application", {
             }, this);
             let cellOutput = new dashGrid.cell.Output(cellHandler);
             this.__cellEditors[cellHandler.getUuid()] = cellEditor;
-            this.__gridder.addWidget2(cellOutput);
+            this.__gridder.addWidget(cellOutput);
           }, this);
           break;
         }

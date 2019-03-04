@@ -71,7 +71,6 @@ qx.Class.define("dashGrid.wrapper.Gridster", {
         console.log(gridsterPath + " loaded");
         this.setLibReady(true);
         this.__createEmptyLayout();
-        // this.__fillWDummy();
       }, this);
 
       dynLoader.addListener("failed", e => {
@@ -138,7 +137,7 @@ qx.Class.define("dashGrid.wrapper.Gridster", {
       return html;
     },
 
-    addWidget2: function(cellOutput) {
+    addWidget: function(cellOutput) {
       const html = this.__buildHtmlCode(cellOutput);
       let jQueryElement = this.__gridster.add_widget(html, 8, 6);
       if (jQueryElement) {
@@ -147,47 +146,6 @@ qx.Class.define("dashGrid.wrapper.Gridster", {
           this.fireDataEvent("widgetSelected", cellOutput.getHandler().getUuid());
         }, this);
       }
-    },
-
-    addWidget: function(html, sizex, sizey, col, row) {
-      // let cellOutput = new dashGrid.cell.Output();
-      // cellOutput.setOutputContent(html);
-      html = "<li>" + html + "</li>";
-      const jQueryElement = this.__gridster.add_widget(html, sizex, sizey, col, row);
-      const htmlElement = jQueryElement.get(0);
-      htmlElement.addEventListener("dblclick", (e) => {
-        this.fireDataEvent("widgetSelected", e.currentTarget);
-      }, this)
-    },
-
-    __fillWDummy: function() {
-      const init = [
-        [1, 1, 4, 4],
-        [6, 1, 2, 4],
-        [8, 1, 2, 2],
-        [4, 6, 6, 2],
-        [1, 8, 2, 2],
-        [1, 6, 2, 2],
-        [4, 8, 2, 2],
-        [4, 10, 2, 2]
-      ];
-
-      for (let i=0; i<init.length; i++) {
-        const c = init[i];
-        const options = this.createCellOptions(c[0], c[1], c[2], c[3]);
-        this.addTextWidget(options);
-      }
-      this.addSVGWidget(10, 12);
-    },
-
-    addTextWidget: function(options) {
-      const html = this.getRandomText();
-      this.addWidget(html, options.sizex, options.sizey, options.col, options.row);
-    },
-
-    addSVGWidget: function(col, row) {
-      const html = this.getSVGChart();
-      this.addWidget(html, Math.ceil(800/this.getCellWidth()), Math.ceil(600/this.getCellHeight()), col, row);
     }
   }
 });
