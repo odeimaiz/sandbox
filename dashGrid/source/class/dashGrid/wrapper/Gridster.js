@@ -55,10 +55,13 @@ qx.Class.define("dashGrid.wrapper.Gridster", {
       const gridsterPath = extras ? "gridsterjs/jquery.gridster.with-extras-0.7.0.min.js" : "gridsterjs/jquery.gridster-0.7.0.min.js";
       const gridsterCss = "gridsterjs/jquery.gridster-0.7.0.min.css";
       const gridsterDemoCss = "gridsterjs/jquery.gridster.demo.css";
+      const gridsterOsparcCss = "gridsterjs/jquery.gridster.osparc.css";
       const gridsterCssUri = qx.util.ResourceManager.getInstance().toUri(gridsterCss);
       const gridsterDemoCssUri = qx.util.ResourceManager.getInstance().toUri(gridsterDemoCss);
+      const gridsterOsparcCssUri = qx.util.ResourceManager.getInstance().toUri(gridsterOsparcCss);
       qx.module.Css.includeStylesheet(gridsterCssUri);
       qx.module.Css.includeStylesheet(gridsterDemoCssUri);
+      qx.module.Css.includeStylesheet(gridsterOsparcCssUri);
       let dynLoader = new qx.util.DynamicScriptLoader([
         jQueryPath,
         gridsterPath
