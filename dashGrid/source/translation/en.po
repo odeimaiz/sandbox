@@ -5,6 +5,7 @@
 #: dashGrid/CellOutput.js:27 dashGrid/cell/Editor.js:39
 #: dashGrid/cell/Editor.js:41 dashGrid/cell/Editor.js:42
 #: dashGrid/cell/Editor.js:44 dashGrid/cell/Editor.js:43
+#: dashGrid/cell/Editor.js:38
 msgid "Back to grid"
 msgstr ""
 
@@ -15,7 +16,7 @@ msgstr ""
 #: dashGrid/CellEditor.js:49 dashGrid/CellOutput.js:37
 #: dashGrid/cell/Editor.js:49 dashGrid/cell/Editor.js:51
 #: dashGrid/cell/Editor.js:52 dashGrid/cell/Editor.js:54
-#: dashGrid/cell/Editor.js:53
+#: dashGrid/cell/Editor.js:53 dashGrid/cell/Editor.js:48
 msgid "title"
 msgstr ""
 
@@ -25,5 +26,6 @@ msgstr ""
 
 #: dashGrid/cell/Editor.js:65 dashGrid/cell/Editor.js:66
 #: dashGrid/cell/Editor.js:67 dashGrid/cell/Editor.js:64
+#: dashGrid/cell/Editor.js:61
 msgid "Change content"
 msgstr ""
