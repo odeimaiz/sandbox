@@ -6,6 +6,7 @@ from dash.dependencies import Input, Output, State
 import dash_core_components as dcc
 import dash_html_components as html
 
+import strava_client
 import leaderboard
 
 veloton_style = {
@@ -60,7 +61,7 @@ dcc_input_pair = {
     'backgroundColor': veloton_style['backgroundColor']
 }
 
-client = leaderboard.create_client()
+client = strava_client.create_client()
 
 timeframe='this_year'
 gender='M'
