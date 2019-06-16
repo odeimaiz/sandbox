@@ -203,7 +203,7 @@ def dump_to_csv(_n_clicks, segment_1_id, segment_2_id, timeframe, gender, club_i
         gender = None
     if club_id is 0:
         club_id = None
-    nResults = 20
+    nResults = 100
     segments = [segment_1_id, segment_2_id]
     for segment_id in segments:
         leaderboard.learboard_to_csv(client, segment_id, timeframe, gender, club_id, nResults)
