@@ -33,6 +33,9 @@ centered_text = {
     'color': veloton_style['color'],
     'backgroundColor': veloton_style['backgroundColor']
 }
+hidden = {
+    'display': 'none'
+}
 dcc_input = {
     'color': veloton_style['color'],
     # 'backgroundColor': veloton_style['gridColor']
@@ -63,20 +66,6 @@ dcc_input_pair = {
 
 client = strava_client.create_client()
 
-timeframe='this_year'
-gender='M'
-club_id=316340 #Veloton
-# club_id=None
-nResults = 20
-VCH_ITT_19_1 = 20600593
-VCH_ITT_19_2 = 20601219
-segments = [VCH_ITT_19_1, VCH_ITT_19_2]
-for segment_id in segments:
-	leaderboard.learboard_to_csv(client, segment_id, timeframe, gender, club_id, nResults)
-
-df_overall = pd.read_csv(str(VCH_ITT_19_1)+'_leaderboard.csv')
-df_up = pd.read_csv(str(VCH_ITT_19_1)+'_leaderboard.csv')
-df_down = pd.read_csv(str(VCH_ITT_19_2)+'_leaderboard.csv')
 
 app = dash.Dash(__name__)
 app.css.append_css({
@@ -165,17 +154,15 @@ app.layout = html.Div(children=[
                 html.Button('Update', id='update-button')
             ])
         ], style=unflex_column),
+        
+        html.Div(id='input-data', style=hidden),
 
         html.Div([
             html.H2(
                 children='Overall',
                 style=centered_text
             ),
-            dash_table.DataTable(
-                id='table_overall',
-                columns=[{"name": i, "id": i} for i in df_overall.columns],
-                data=df_overall.to_dict('records'),
-            )
+            html.Div(id='segment-overall-table')
         ], style=flex_column),
 
         html.Div([
@@ -183,11 +170,7 @@ app.layout = html.Div(children=[
                 children='Up',
                 style=centered_text
             ),
-            dash_table.DataTable(
-                id='table_up',
-                columns=[{"name": i, "id": i} for i in df_up.columns],
-                data=df_up.to_dict('records'),
-            )
+            html.Div(id='segment1-table')
         ], style=flex_column),
 
         html.Div([
@@ -195,14 +178,72 @@ app.layout = html.Div(children=[
                 children='Down',
                 style=centered_text
             ),
-            dash_table.DataTable(
-                id='table_down',
-                columns=[{"name": i, "id": i} for i in df_down.columns],
-                data=df_down.to_dict('records'),
-            )
+            html.Div(id='segment2-table')
         ], style=flex_column)
     ], style=flex_columns)
 ], style=veloton_style)
+
+
+@app.callback(
+    Output('input-data', 'children'),
+    [Input('update-button', 'n_clicks')],
+    state=[
+        State(component_id='segment_1', component_property='value'),
+        State(component_id='segment_2', component_property='value'),
+        State(component_id='timeframe', component_property='value'),
+        State(component_id='gender', component_property='value'),
+        State(component_id='club_id', component_property='value')
+    ]
+)
+def dump_to_csv(_n_clicks, segment_1_id, segment_2_id, timeframe, gender, club_id):
+    print(segment_1_id, segment_2_id, timeframe, gender, club_id)
+    if timeframe is 0:
+        timeframe = None
+    if gender is 0:
+        gender = None
+    if club_id is 0:
+        club_id = None
+    nResults = 20
+    segments = [segment_1_id, segment_2_id]
+    for segment_id in segments:
+        leaderboard.learboard_to_csv(client, segment_id, timeframe, gender, club_id, nResults)
+    leaderboard.sum_learboards(segment_1_id, segment_2_id)
+    segments.append('overall')
+    return segments
+
+def create_table(segment_id, table_id):
+    df = pd.read_csv(str(segment_id)+'_leaderboard.csv')
+    table = dash_table.DataTable(
+        id=table_id,
+        columns=[{"name": i, "id": i} for i in df.columns],
+        data=df.to_dict('records'),
+    )
+    return table
+
+@app.callback(
+    Output('segment1-table', 'children'),
+    [Input('input-data', 'children')]
+)
+def create_table_1(data):
+    segment_id = data[0]
+    return create_table(segment_id, 'table_1')
+
+@app.callback(
+    Output('segment2-table', 'children'),
+    [Input('input-data', 'children')]
+)
+def create_table_2(data):
+    segment_id = data[1]
+    return create_table(segment_id, 'table_2')
+
+@app.callback(
+    Output('segment-overall-table', 'children'),
+    [Input('input-data', 'children')]
+)
+def create_table_overall(data):
+    segment_id = data[2]
+    return create_table(segment_id, 'table_3')
+
 
 if __name__ == '__main__':
     app.run_server(debug=True)

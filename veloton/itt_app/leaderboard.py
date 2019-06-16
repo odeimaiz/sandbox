@@ -1,7 +1,7 @@
 import pandas as pd
 
 
-COLUMNS = ["Pos", "Name", "Time"]
+COLUMNS = ['Pos', 'Name', 'Time']
 
 def learboard_to_csv(client, segment_id, timeframe=None, gender=None, club_id=None, nResults=None):
 	# get_segment_leaderboard(segment_id, gender=None, age_group=None, weight_class=None, following=None,
@@ -16,5 +16,20 @@ def learboard_to_csv(client, segment_id, timeframe=None, gender=None, club_id=No
 			COLUMNS[2]: entry.elapsed_time.seconds
 			}, ignore_index=True)
 
-	file_name = str(segment_id) + "_leaderboard.csv"
+	file_name = str(segment_id) + '_leaderboard.csv'
 	df.to_csv(file_name, sep=',', encoding='utf-8', index=False)
+
+
+def sum_learboards(segment_id_1, segment_id_2):
+	df_1 = pd.read_csv(str(segment_id_1)+'_leaderboard.csv')
+	df_2 = pd.read_csv(str(segment_id_2)+'_leaderboard.csv')
+	df_overall = pd.DataFrame(columns=COLUMNS)
+	for _index1, row1 in df_1.iterrows():
+		for _index2, row2 in df_2.iterrows():
+			if row1['Name'] == row2['Name']:
+				df_overall = df_overall.append({
+					'Pos': 1,
+					'Name': row1['Name'],
+					'Time': row1['Time'] + row2['Time']
+				}, ignore_index=True)
+	df_overall.to_csv('overall_leaderboard.csv', sep=',', encoding='utf-8', index=False)
