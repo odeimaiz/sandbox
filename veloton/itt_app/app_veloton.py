@@ -220,7 +220,7 @@ def dump_to_csv(_n_clicks, segment_1_id, segment_2_id, timeframe, gender, club_i
     return segments
 
 def create_table(segment_id, table_id):
-    df = pd.read_csv(str(segment_id)+'_leaderboard.csv')
+    df = pd.read_csv('leaderboards/'+str(segment_id)+'.csv')
     for index, row in df.iterrows():
         formatted = str(datetime.timedelta(seconds=row['Time']))
         # formatted = formatted[2:]
