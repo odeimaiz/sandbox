@@ -32,4 +32,9 @@ def sum_learboards(segment_id_1, segment_id_2):
 					'Name': row1['Name'],
 					'Time': row1['Time'] + row2['Time']
 				}, ignore_index=True)
+	df_overall = df_overall.sort_values(by=['Time'], ascending=[True])
+	pos = 1
+	for index, _row in df_overall.iterrows():
+		df_overall.loc[index, 'Pos'] = pos
+		pos = pos + 1
 	df_overall.to_csv('overall_leaderboard.csv', sep=',', encoding='utf-8', index=False)
