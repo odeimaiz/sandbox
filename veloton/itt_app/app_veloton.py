@@ -64,6 +64,13 @@ dcc_input_pair = {
     'backgroundColor': veloton_style['backgroundColor']
 }
 
+# ITT_1 = 20600593
+# ITT_2 = 20601219
+SEGMENT_ID_1 = 4164918
+SEGMENT_ID_2 = 762274
+SEGMENT_LABEL_1 = 'Forststrasse'
+SEGMENT_LABEL_2 = 'Double Whopper'
+
 client = strava_client.create_client()
 
 
@@ -81,11 +88,11 @@ app.layout = html.Div(children=[
                 style=centered_text
             ),
             html.H1(
-                children='Zurich Veloton ITT',
+                children='Zurich Veloton Climb',
                 style=centered_text
             ),
             html.Div(
-                children='Sihlstrasse Up&Down. August 28th',
+                children='Wednesday Ride long climbs',
                 style=centered_text
             ),
 
@@ -133,7 +140,7 @@ app.layout = html.Div(children=[
                     dcc.Input(
                         id='segment_1',
                         type='number',
-                        value=20600593,
+                        value=SEGMENT_ID_1,
                         style=dcc_input_number
                     )
                 ], style=dcc_input_pair),
@@ -144,7 +151,7 @@ app.layout = html.Div(children=[
                     dcc.Input(
                         id='segment_2',
                         type='number',
-                        value=20601219,
+                        value=SEGMENT_ID_2,
                         style=dcc_input_number
                     )
                 ], style=dcc_input_pair)
@@ -167,7 +174,7 @@ app.layout = html.Div(children=[
 
         html.Div([
             html.H2(
-                children='Up',
+                children=SEGMENT_LABEL_1,
                 style=centered_text
             ),
             html.Div(id='segment1-table')
@@ -175,7 +182,7 @@ app.layout = html.Div(children=[
 
         html.Div([
             html.H2(
-                children='Down',
+                children=SEGMENT_LABEL_2,
                 style=centered_text
             ),
             html.Div(id='segment2-table')
