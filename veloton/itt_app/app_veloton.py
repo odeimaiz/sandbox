@@ -1,4 +1,5 @@
 import pandas as pd
+import datetime
 
 import dash
 import dash_table
@@ -220,6 +221,10 @@ def dump_to_csv(_n_clicks, segment_1_id, segment_2_id, timeframe, gender, club_i
 
 def create_table(segment_id, table_id):
     df = pd.read_csv(str(segment_id)+'_leaderboard.csv')
+    for index, row in df.iterrows():
+        formatted = str(datetime.timedelta(seconds=row['Time']))
+        # formatted = formatted[2:]
+        df.loc[index, 'Time'] = formatted
     table = dash_table.DataTable(
         id=table_id,
         columns=[{"name": i, "id": i} for i in df.columns],
