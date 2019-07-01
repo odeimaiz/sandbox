@@ -67,10 +67,18 @@ dcc_input_pair = {
 
 # ITT_1 = 20600593
 # ITT_2 = 20601219
-SEGMENT_ID_1 = 4164918
-SEGMENT_ID_2 = 762274
-SEGMENT_LABEL_1 = 'Forststrasse'
-SEGMENT_LABEL_2 = 'Double Whopper'
+# Susten 5145893
+# Grimsel -
+# Nufenen 658845
+# Gottard 10050259
+# Forststrasse 4164918
+# Double Whopper 762274
+SEGMENT_ID_1 = 5145893
+SEGMENT_ID_2 = 658845
+SEGMENT_ID_3 = 10050259
+SEGMENT_LABEL_1 = 'Susten'
+SEGMENT_LABEL_2 = 'Nufenen'
+SEGMENT_LABEL_3 = 'Gottard'
 
 client = strava_client.create_client()
 
@@ -89,10 +97,10 @@ app.layout = html.Div(children=[
                 style=centered_text
             ),
             html.H1(
-                children='Zurich Veloton Climb',
+                children='Zurich Veloton',
                 style=centered_text
             ),
-            html.Div(
+            html.H3(
                 children='Wednesday Ride long climbs',
                 style=centered_text
             ),
@@ -155,6 +163,17 @@ app.layout = html.Div(children=[
                         value=SEGMENT_ID_2,
                         style=dcc_input_number
                     )
+                ], style=dcc_input_pair),
+                html.Div([
+                    html.Div([
+                        html.Label('Segment 3:')
+                    ], style=dcc_input_label),
+                    dcc.Input(
+                        id='segment_3',
+                        type='number',
+                        value=SEGMENT_ID_3,
+                        style=dcc_input_number
+                    )
                 ], style=dcc_input_pair)
             ]),
             
@@ -187,6 +206,14 @@ app.layout = html.Div(children=[
                 style=centered_text
             ),
             html.Div(id='segment2-table')
+        ], style=flex_column),
+
+        html.Div([
+            html.H2(
+                children=SEGMENT_LABEL_3,
+                style=centered_text
+            ),
+            html.Div(id='segment3-table')
         ], style=flex_column)
     ], style=flex_columns)
 ], style=veloton_style)
@@ -198,13 +225,14 @@ app.layout = html.Div(children=[
     state=[
         State(component_id='segment_1', component_property='value'),
         State(component_id='segment_2', component_property='value'),
+        State(component_id='segment_3', component_property='value'),
         State(component_id='timeframe', component_property='value'),
         State(component_id='gender', component_property='value'),
         State(component_id='club_id', component_property='value')
     ]
 )
-def dump_to_csv(_n_clicks, segment_1_id, segment_2_id, timeframe, gender, club_id):
-    print(segment_1_id, segment_2_id, timeframe, gender, club_id)
+def dump_to_csv(_n_clicks, segment_1_id, segment_2_id, segment_3_id, timeframe, gender, club_id):
+    print(segment_1_id, segment_2_id, segment_3_id, timeframe, gender, club_id)
     if timeframe is 0:
         timeframe = None
     if gender is 0:
@@ -212,49 +240,76 @@ def dump_to_csv(_n_clicks, segment_1_id, segment_2_id, timeframe, gender, club_i
     if club_id is 0:
         club_id = None
     nResults = 100
-    segments = [segment_1_id, segment_2_id]
+    segments = []
+    if segment_1_id != 0:
+        segments.append(segment_1_id)
+    if segment_2_id != 0:
+        segments.append(segment_2_id)
+    if segment_3_id != 0:
+        segments.append(segment_3_id)
     for segment_id in segments:
         leaderboard.learboard_to_csv(client, segment_id, timeframe, gender, club_id, nResults)
-    leaderboard.sum_learboards(segment_1_id, segment_2_id)
-    segments.append('overall')
+    leaderboard.sum_learboards(segments)
+    segments.insert(0, 'overall')
     return segments
 
-def create_table(segment_id, table_id):
-    df = pd.read_csv('leaderboards/'+str(segment_id)+'.csv')
-    for index, row in df.iterrows():
-        formatted = str(datetime.timedelta(seconds=row['Time']))
-        # formatted = formatted[2:]
-        df.loc[index, 'Time'] = formatted
-    table = dash_table.DataTable(
-        id=table_id,
-        columns=[{"name": i, "id": i} for i in df.columns],
-        data=df.to_dict('records'),
-    )
-    return table
+def create_table(data, index, table_id):
+    if index == 'overall' or len(data) > index:
+        if index == 'overall':
+            segment_id = 'overall'
+        else:
+            segment_id = data[index]
+        df = pd.read_csv('leaderboards/'+str(segment_id)+'.csv')
+        for index, row in df.iterrows():
+            formatted = str(datetime.timedelta(seconds=row['Time']))
+            # formatted = formatted[2:]
+            df.loc[index, 'Time'] = formatted
+        table = dash_table.DataTable(
+            id=table_id,
+            columns=[{"name": i, "id": i} for i in df.columns],
+            data=df.to_dict('records'),
+        )
+        return table
+    return
 
 @app.callback(
     Output('segment1-table', 'children'),
     [Input('input-data', 'children')]
 )
 def create_table_1(data):
-    segment_id = data[0]
-    return create_table(segment_id, 'table_1')
+    # segment_id = data[1]
+    # return create_table(segment_id, 'table_1')
+    id = 1
+    return create_table(data, 1, 'table_'+str(id))
 
 @app.callback(
     Output('segment2-table', 'children'),
     [Input('input-data', 'children')]
 )
 def create_table_2(data):
-    segment_id = data[1]
-    return create_table(segment_id, 'table_2')
+    # segment_id = data[2]
+    # return create_table(segment_id, 'table_2')
+    id = 2
+    return create_table(data, 2, 'table_'+str(id))
+
+@app.callback(
+    Output('segment3-table', 'children'),
+    [Input('input-data', 'children')]
+)
+def create_table_3(data):
+    print(len(data))
+    id = 3
+    return create_table(data, id, 'table_'+str(id))
 
 @app.callback(
     Output('segment-overall-table', 'children'),
     [Input('input-data', 'children')]
 )
 def create_table_overall(data):
-    segment_id = data[2]
-    return create_table(segment_id, 'table_3')
+    # segment_id = data[0]
+    # return create_table(segment_id, 'table_4')
+    id = 'overall'
+    return create_table(data, 'overall', 'table_'+str(id))
 
 
 if __name__ == '__main__':
