@@ -277,8 +277,6 @@ def create_table(data, index, table_id):
     [Input('input-data', 'children')]
 )
 def create_table_1(data):
-    # segment_id = data[1]
-    # return create_table(segment_id, 'table_1')
     id = 1
     return create_table(data, 1, 'table_'+str(id))
 
@@ -287,8 +285,6 @@ def create_table_1(data):
     [Input('input-data', 'children')]
 )
 def create_table_2(data):
-    # segment_id = data[2]
-    # return create_table(segment_id, 'table_2')
     id = 2
     return create_table(data, 2, 'table_'+str(id))
 
@@ -297,7 +293,6 @@ def create_table_2(data):
     [Input('input-data', 'children')]
 )
 def create_table_3(data):
-    print(len(data))
     id = 3
     return create_table(data, id, 'table_'+str(id))
 
@@ -306,8 +301,6 @@ def create_table_3(data):
     [Input('input-data', 'children')]
 )
 def create_table_overall(data):
-    # segment_id = data[0]
-    # return create_table(segment_id, 'table_4')
     id = 'overall'
     return create_table(data, 'overall', 'table_'+str(id))
 
