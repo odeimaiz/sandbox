@@ -18,7 +18,7 @@ def learboard_to_csv(client, segment_id, timeframe=None, gender=None, club_id=No
 	df.to_csv(file_name, sep=',', encoding='utf-8', index=False)
 
 
-def sum_learboards(segment_ids):
+def sum_learboards(segment_ids, outfilename):
 	dfs = []
 	for segment_id in segment_ids:
 		df = pd.read_csv('leaderboards/'+str(segment_id)+'.csv')
@@ -46,4 +46,4 @@ def sum_learboards(segment_ids):
 	for index, _row in df_overall.iterrows():
 		df_overall.loc[index, 'Pos'] = pos
 		pos = pos + 1
-	df_overall.to_csv('leaderboards/overall.csv', sep=',', encoding='utf-8', index=False)
+	df_overall.to_csv('leaderboards/'+outfilename, sep=',', encoding='utf-8', index=False)

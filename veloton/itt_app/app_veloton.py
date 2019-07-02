@@ -249,7 +249,7 @@ def dump_to_csv(_n_clicks, segment_1_id, segment_2_id, segment_3_id, timeframe, 
         segments.append(segment_3_id)
     for segment_id in segments:
         leaderboard.learboard_to_csv(client, segment_id, timeframe, gender, club_id, nResults)
-    leaderboard.sum_learboards(segments)
+    leaderboard.sum_learboards(segments, 'overall'+'.csv')
     segments.insert(0, 'overall')
     return segments
 
@@ -262,7 +262,6 @@ def create_table(data, index, table_id):
         df = pd.read_csv('leaderboards/'+str(segment_id)+'.csv')
         for index, row in df.iterrows():
             formatted = str(datetime.timedelta(seconds=row['Time']))
-            # formatted = formatted[2:]
             df.loc[index, 'Time'] = formatted
         table = dash_table.DataTable(
             id=table_id,
