@@ -176,12 +176,12 @@ app.layout = html.Div(children=[
                     )
                 ], style=dcc_input_pair)
             ]),
-            
+
             html.Div([
                 html.Button('Update', id='update-button')
             ])
         ], style=unflex_column),
-        
+
         html.Div(id='input-data', style=hidden),
 
         html.Div([
@@ -253,6 +253,7 @@ def dump_to_csv(_n_clicks, segment_1_id, segment_2_id, segment_3_id, timeframe, 
     segments.insert(0, 'overall')
     return segments
 
+
 def create_table(data, index, table_id):
     if index == 'overall' or len(data) > index:
         if index == 'overall':
@@ -271,6 +272,7 @@ def create_table(data, index, table_id):
         return table
     return
 
+
 @app.callback(
     Output('segment1-table', 'children'),
     [Input('input-data', 'children')]
@@ -278,6 +280,7 @@ def create_table(data, index, table_id):
 def create_table_1(data):
     id = 1
     return create_table(data, 1, 'table_'+str(id))
+
 
 @app.callback(
     Output('segment2-table', 'children'),
@@ -287,6 +290,7 @@ def create_table_2(data):
     id = 2
     return create_table(data, 2, 'table_'+str(id))
 
+
 @app.callback(
     Output('segment3-table', 'children'),
     [Input('input-data', 'children')]
@@ -294,6 +298,7 @@ def create_table_2(data):
 def create_table_3(data):
     id = 3
     return create_table(data, id, 'table_'+str(id))
+
 
 @app.callback(
     Output('segment-overall-table', 'children'),
